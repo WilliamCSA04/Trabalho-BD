@@ -1,6 +1,5 @@
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,9 +19,11 @@ public class Main {
 
     /**
      * FIXME: Limpar console
-     *
+     * 
      */
     public static void main(String[] args) {
+        System.out.println(new MusicaDAO().getLista());
+        
         tabelas.add("Musicos");
         tabelas.add("Musicas");
         tabelas.add("Bandas");
@@ -47,7 +48,7 @@ public class Main {
                 continue;
             }
             System.out.println();
-            String opcaoSelecionada;
+            String opcaoSelecionada="";
             switch (opcao) {
                 case "1":
                     System.out.println("Qual tabela deseja consultar?");
@@ -75,12 +76,14 @@ public class Main {
                 opcao = entrada.next();
             }while(!tabelas.contains(opcao) || !opcao.equalsIgnoreCase("r"));
 
-            switch(opcao.toUpperCase()){
+            switch(opcaoSelecionada.toUpperCase()){
                 case "R": continue;
-                case "MUSICAS":
-                case "MUSICOS":
-                case "BANDAS":
-                case "ALBUNS":
+                case "INSERT":
+                    
+                case "SELECT":
+                    selectOptions(opcao);
+                case "UPDATE":
+                case "DELETE":
             }
             
             
@@ -105,5 +108,16 @@ public class Main {
         System.out.println("3 - Atualizar");
         System.out.println("4 - Remover");
         System.out.println("0 - Sair");
+    }
+    
+    
+
+    private static void selectOptions(String opcao) {
+        switch(opcao.toUpperCase()){
+            case "MUSICAS":
+                System.out.println("Lista ?");
+                String pesquisa = entrada.nextLine();
+                
+        }
     }
 }

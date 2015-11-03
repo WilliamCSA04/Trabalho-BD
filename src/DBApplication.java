@@ -12,7 +12,7 @@ import java.sql.*;
 import java.util.List;
 import java.util.Scanner;
 
-public class DBApplication {
+public class DBApplication { //DELETE ME,PLEASE
 
     /**
      * @param args the command line arguments
