@@ -102,7 +102,7 @@ public class MusicaDAO {
         return null;
     }
 
-    public List<Musica> getLista() {
+    public List<Musica> select() {
         try {
             List<Musica> musicas = new ArrayList<>();
             PreparedStatement stmt = this.connection.prepareStatement("select * from musicas ");

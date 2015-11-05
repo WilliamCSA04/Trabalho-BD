@@ -3,9 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/H:/Banco%20De%20Dados/TrabalhoBanco/src/AcessDB.java</file>
-            <file>file:/H:/Banco%20De%20Dados/TrabalhoBanco/src/DBApplication.java</file>
-            <file>file:/H:/Banco%20De%20Dados/TrabalhoBanco/src/ConnectionFactory.java</file>
+            <file>file:/H:/Banco%20De%20Dados/TrabalhoBanco/src/MusicaDAO.java</file>
+            <file>file:/H:/Banco%20De%20Dados/TrabalhoBanco/src/BandaDAO.java</file>
             <file>file:/H:/Banco%20De%20Dados/TrabalhoBanco/src/Main.java</file>
         </group>
     </open-files>

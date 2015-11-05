@@ -22,7 +22,7 @@ public class Main {
      * 
      */
     public static void main(String[] args) {
-        System.out.println(new MusicaDAO().getLista());
+        //System.out.println(new BandaDAO().selectOrdenado(true));
         
         tabelas.add("Musicos");
         tabelas.add("Musicas");
@@ -52,38 +52,41 @@ public class Main {
             switch (opcao) {
                 case "1":
                     System.out.println("Qual tabela deseja consultar?");
-                    opcaoSelecionada = "Select ";
+                    opcaoSelecionada = "Select";
                     break;
                 case "2":
                     System.out.println("Em qual tabela deseja inserir novos dados?");
-                    opcaoSelecionada = "Insert Into ";
+                    opcaoSelecionada = "Insert";
                     break;
                 case "3":
                     System.out.println("Qual tabela deseja atualizar?");
-                    opcaoSelecionada = "Update ";
+                    opcaoSelecionada = "Update";
                     break;
                 case "4":
                     System.out.println("De qual tabela deseja remover dados?");
-                    opcaoSelecionada = "Delete ";
+                    opcaoSelecionada = "Delete";
                     break;
             }
             System.out.println("Digite 'r' para retornar ao menu inicial");
             exibirTabelas();
             opcao = entrada.next();
-            do{
+            while(!opcao.equalsIgnoreCase("Musicas") && !opcao.equalsIgnoreCase("Bandas") && !opcao.equalsIgnoreCase("r")){
                 System.out.println("Opção errada");
                 System.out.println("Tente novamente");
                 opcao = entrada.next();
-            }while(!tabelas.contains(opcao) || !opcao.equalsIgnoreCase("r"));
-
-            switch(opcaoSelecionada.toUpperCase()){
+            }
+            opcaoSelecionada = opcaoSelecionada.toUpperCase();
+            switch(opcaoSelecionada){
                 case "R": continue;
                 case "INSERT":
                     
                 case "SELECT":
-                    selectOptions(opcao);
+                    if(opcao.equals("Musicas")) System.out.println(new MusicaDAO().select());
+                    else if (opcao.equals("Bandas")) System.out.println(new BandaDAO().select());
                 case "UPDATE":
+                    
                 case "DELETE":
+                    
             }
             
             
@@ -110,14 +113,4 @@ public class Main {
         System.out.println("0 - Sair");
     }
     
-    
-
-    private static void selectOptions(String opcao) {
-        switch(opcao.toUpperCase()){
-            case "MUSICAS":
-                System.out.println("Lista ?");
-                String pesquisa = entrada.nextLine();
-                
-        }
-    }
 }
