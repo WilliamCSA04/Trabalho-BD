@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,11 +24,51 @@ import java.util.logging.Logger;
 public class BandaDAO {
     
     private Connection connection;
-
+    private LinkedList<Integer> codigosBanda = new LinkedList<>();
+    private LinkedList<String> nomeBanda = new LinkedList<>();
     public BandaDAO() {
         this.connection = new ConnectionFactory().getConnection();
+        try {
+            this.connection = new ConnectionFactory().getConnection();
+            String sql = "select nome, cod_banda from bandas";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                codigosBanda.add(rs.getInt("cod_banda"));
+                nomeBanda.add(rs.getString("Nome"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MusicaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
+    public LinkedList<Integer> getCodigosBanda() {
+        Collections.sort(codigosBanda);
+        return codigosBanda;
+    }
+    
+    public LinkedList<String> getNomeBanda() {
+        return nomeBanda;
+    }
+
+    public String getNomeBandas(){
+        String s="";
+        try {
+            this.connection = new ConnectionFactory().getConnection();
+            String sql = "select nome from bandas";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                s+=rs.getInt("nome")+"\n";
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MusicaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return s;
+    }
 
     public List select() {
         try {

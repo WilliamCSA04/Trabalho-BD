@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,11 +14,49 @@ public class MusicaDAO {
 
     // a conexão com o banco de dados
     private Connection connection;
-
+    private LinkedList<Integer> codigoMusicas=new LinkedList<>();
     public MusicaDAO() {
-        this.connection = new ConnectionFactory().getConnection();
+        try {
+            this.connection = new ConnectionFactory().getConnection();
+            String sql = "select cod_musica from musicas";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                codigoMusicas.add(rs.getInt("cod_musica"));
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MusicaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public String selectTitulo(){
+        String s="";
+        try {
+            this.connection = new ConnectionFactory().getConnection();
+            String sql = "select cod_musica, titulo from musicas";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                s+=rs.getInt("cod_musica") + " " + rs.getString("titulo")+"\n";
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MusicaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return s;
+    }
+    
+    public LinkedList<Integer> getLista(){
+        Collections.sort(codigoMusicas);
+        return codigoMusicas;
     }
 
+  
+    
+    
     public void insert(Musica musica) {
         String sql = "insert into musicas "
                 + "(titulo, cod_musica, cod_albuns, genero)"
@@ -57,6 +97,34 @@ public class MusicaDAO {
 //            
 //    }
     
+    public boolean update(String titulo, int codigo){
+        try {
+            String sql = "update bandas set titulo= ? where cod_musica = ?";
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+            stmt.setString(1, titulo);
+            stmt.setInt(2, codigo);
+            stmt.execute();
+            stmt.close();
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+    
+    public boolean delete(String cod_musica) {
+        try {
+            String sql = "delete from musicas where cod_musica = ?";
+            PreparedStatement stmt = this.connection.prepareStatement(sql);
+            stmt.setString(1, cod_musica);
+            stmt.execute();
+            stmt.close();
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+        
+    }
+    
     public Musica selectNomeMusica(String musica){
         try {
             Musica m = new Musica();    
@@ -79,12 +147,14 @@ public class MusicaDAO {
         return new Musica();
     }
     
+   
+    
     public List<Musica> selectMusicasPorBanda(String banda){
         try {
                 
-            String sql = "select * from musicas  m inner join albuns a on m.cod_albuns = a.cod_albuns inner join bandas b on a.cod_bandas = b.cod_bandas where b.nome= ? ";
+            String sql = "select * from musicas  m inner join albuns a on m.cod_albuns = a.cod_albuns inner join bandas b on a.cod_bandas = b.cod_bandas where UPPER(b.nome)= ? ";
                 PreparedStatement stmt = connection.prepareStatement(sql);
-                stmt.setString(1, banda);
+                stmt.setString(1, banda.toUpperCase());
                 ResultSet rs = stmt.executeQuery();
                 List<Musica> musicas = new ArrayList<>();
                 while(rs.next()){
