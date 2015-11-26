@@ -64,7 +64,7 @@ public class Banda {
     
     @Override
     public String toString() {
-        return "Banda{" + "nome=" + nome + ", cod_bandas=" + cod_bandas + ", data_criacao=" + data_criacao + ", lingua=" + lingua + '}';
+        return "Nome:" + nome;
     }
     
 }

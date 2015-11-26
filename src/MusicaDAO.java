@@ -77,6 +77,22 @@ public class MusicaDAO {
         }
     }
     
+    public int selectCodAlbum(int a){
+        int r=0;
+        try {
+            String sql = "select cod_albuns from musicas where cod_banda=?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                r=rs.getInt("cod_albuns");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MusicaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return r;
+    }
+    
 //    public String select(String coluna){
 //        if(coluna.equalsIgnoreCase("titulo") || coluna.equalsIgnoreCase("cod_musica") || coluna.equalsIgnoreCase("cod_albuns") || coluna.equalsIgnoreCase("genero")){
 //            try {
@@ -99,7 +115,7 @@ public class MusicaDAO {
     
     public boolean update(String titulo, int codigo){
         try {
-            String sql = "update bandas set titulo= ? where cod_musica = ?";
+            String sql = "update musicas set titulo= ? where cod_musica = ?";
             PreparedStatement stmt = this.connection.prepareStatement(sql);
             stmt.setString(1, titulo);
             stmt.setInt(2, codigo);

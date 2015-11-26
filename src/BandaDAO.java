@@ -29,13 +29,12 @@ public class BandaDAO {
     public BandaDAO() {
         this.connection = new ConnectionFactory().getConnection();
         try {
-            this.connection = new ConnectionFactory().getConnection();
-            String sql = "select nome, cod_banda from bandas";
+            String sql = "select Nome, cod_bandas from bandas";
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             
             while(rs.next()){
-                codigosBanda.add(rs.getInt("cod_banda"));
+                codigosBanda.add(rs.getInt("cod_bandas"));
                 nomeBanda.add(rs.getString("Nome"));
             }
         } catch (SQLException ex) {
@@ -48,6 +47,8 @@ public class BandaDAO {
         return codigosBanda;
     }
     
+    
+    
     public LinkedList<String> getNomeBanda() {
         return nomeBanda;
     }
@@ -55,14 +56,30 @@ public class BandaDAO {
     public String getNomeBandas(){
         String s="";
         try {
-            this.connection = new ConnectionFactory().getConnection();
-            String sql = "select nome from bandas";
+            
+            String sql = "select Nome from bandas";
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             
             while(rs.next()){
-                s+=rs.getInt("nome")+"\n";
-                
+                s+=rs.getString("Nome")+"\n";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MusicaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return s;
+    }
+    
+    public int getCodBandas(int n){
+        int s=0;
+        try {
+            
+            String sql = "select cod_bandas from bandas where nome = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                s=rs.getInt("cod_bandas");
             }
         } catch (SQLException ex) {
             Logger.getLogger(MusicaDAO.class.getName()).log(Level.SEVERE, null, ex);

@@ -52,7 +52,7 @@ public class Musica{
 
     @Override
     public String toString() {
-        return "Musica{" + "titulo=" + titulo + ", cod_musica=" + cod_musica + ", cod_albuns=" + cod_albuns + ", genero=" + genero + '}';
+        return "Titulo:" + titulo + " - Genero:" + genero;
     }
     
 }

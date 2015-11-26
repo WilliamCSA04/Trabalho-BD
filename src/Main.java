@@ -1,6 +1,8 @@
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,38 +48,43 @@ public class Main {
             String opcaoSelecionada = "";
             switch (opcao) {
                 case "1":
-                    System.out.println(new MusicaDAO().select());
+                    List<Musica> m = new MusicaDAO().select();
+                    for (Musica m1 : m) {
+                        System.out.println(m1);
+                    }
+                    
                     continue;
                 case "2":
+                    AlbumDAO adao = new AlbumDAO();
                     System.out.println("Nome da musica: ");
                     String nome = entrada.nextLine();
-                    BandaDAO bdao = new BandaDAO();
-                    int cod_musica = new MusicaDAO().getLista().getLast() + 1;
-                    System.out.println("De qual banda é esta musica: ");
-                    System.out.println(bdao.getNomeBandas());
-                    String banda = entrada.nextLine();
-                    while (true) {
-                        if (bdao.getNomeBandas().toLowerCase().contains(banda.toLowerCase())) {
-                            break;
+                    System.out.println("A qual album ela pertence?");
+                    System.out.println(adao.nome());
+                    String albumNome = entrada.nextLine();
+                    int codigoAlbum = 0;
+                    do{
+                        for(int i=0; i<adao.nome().size();i++){
+                        String a = adao.nome().get(i);
+                        if(a.equalsIgnoreCase(albumNome)){
+                            codigoAlbum=adao.codigo().get(i);
                         }
-                        System.out.println("Essa banda não existe, tente de novo: ");
-                        banda = entrada.nextLine();
                     }
-                    System.out.println("Qual o genero: ");
+                        if(codigoAlbum==0){
+                            System.out.println("Album inexistente, tente de novo: ");
+                            albumNome = entrada.nextLine();
+                        }
+                    }while(codigoAlbum==0);
+                    System.out.println("Diga o genero da musica:");
                     String genero = entrada.nextLine();
-                    int codigo = 0;
-                    for (int i = 0; i < bdao.getNomeBanda().size(); i++) {
-                        String s = bdao.getNomeBanda().get(i);
-                        if (s.equalsIgnoreCase(banda)) {
-                            codigo = i;
-                        }
-                    }
-                    new MusicaDAO().insert(new Musica(nome, cod_musica, codigo, genero));
+                    int cod_musica = new MusicaDAO().getLista().getLast()+1;
+                    new MusicaDAO().insert(new Musica(nome, cod_musica, codigoAlbum, genero));
                     continue;
+                    
                 case "3":
-                    System.out.println("Digite o codigo de musica que deseja atualizar");
+                    System.out.println("Lista de musicas:");
                     String s = new MusicaDAO().selectTitulo();
                     System.out.println(s);
+                    System.out.println("Digite o codigo de musica que deseja atualizar");
                     System.out.print("Digite: ");
                     String cod = entrada.nextLine();
                     while(!s.toLowerCase().contains(cod.toLowerCase())){
@@ -86,13 +93,14 @@ public class Main {
                     }
                     System.out.println("Diga o novo titulo dessa musica:");
                     nome = entrada.nextLine();
-                    new MusicaDAO().update(nome, Integer.parseInt(s));
+                    new MusicaDAO().update(nome, Integer.parseInt(cod));
                     continue;
                 case "4":
-                    System.out.println("Digite o codigo de musica que deseja atualizar");
+                    System.out.println("Lista de musicas:");
                     s = new MusicaDAO().selectTitulo();
                     System.out.println(s);
-                    System.out.print("Digite: ");
+                    System.out.println("Digite o codigo de musica que deseja remover");
+                    System.out.println("Digite: ");
                     cod = entrada.nextLine();
                     while(!s.toLowerCase().contains(cod.toLowerCase())){
                         System.out.println("Codigo errado, digite de novo:");
@@ -104,9 +112,12 @@ public class Main {
                     System.out.println("Digite 'crescente' para que seja ordenado de maneira crescente, se desejar decrescente digite 'decrescente':");
                     String ordem = entrada.nextLine();
                     boolean ordenacao = !ordem.equalsIgnoreCase("decrescente");
-                    System.out.println(new BandaDAO().selectOrdenado(ordenacao));
+                    List<Banda> b = new BandaDAO().selectOrdenado(ordenacao);
+                    for (Banda b1 : b) {
+                        System.out.println(b1);
+                    }
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(4000);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -117,7 +128,7 @@ public class Main {
                     nome = entrada.nextLine();
                     System.out.println(new MusicaDAO().selectMusicasPorBanda(nome));
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(4000);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -128,7 +139,7 @@ public class Main {
                     System.out.println(new MusicaDAO().selectNomeMusica(titulo));
                      {
                         try {
-                            Thread.sleep(2000);
+                            Thread.sleep(4000);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                         }
